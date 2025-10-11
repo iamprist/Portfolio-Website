@@ -2,6 +2,9 @@
 
 A modern, responsive portfolio website showcasing the professional journey of Pretty Mangwadi, a final-year Computer Science student at the University of the Witwatersrand.
 
+## 🌐 Live Website
+**[View Portfolio Live](https://iamprist.github.io/Portfolio-Website/)**
+
 ## About
 
 This portfolio website serves as a comprehensive showcase of Pretty's academic achievements, technical skills, leadership experience, and professional projects. The site reflects her passion for technology, community building, and creating innovative solutions that bridge the gap between technical excellence and real-world impact.
