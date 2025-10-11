@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coursework Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .coursework-section {
+            padding: 20px;
+            background: #f0f0f0;
+            margin: 20px 0;
+            display: none; /* Initially hidden */
+        }
+        .toggle-btn {
+            background: #2d5a27;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .toggle-btn:hover {
+            background: #4a7c59;
+        }
+        .debug {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Coursework Toggle Test</h1>
+    
+    <div class="debug">
+        <h3>Debug Info:</h3>
+        <p id="debug-info">Loading...</p>
+    </div>
+    
+    <div>
+        <button class="toggle-btn" onclick="toggleCoursework()">
+            View Coursework
+        </button>
+    </div>
+
+    <section id="coursework" class="coursework-section">
+        <h2>Academic Coursework</h2>
+        <p>This is the coursework section that should toggle visibility.</p>
+        <div>
+            <h3>First Year Modules</h3>
+            <ul>
+                <li>Mathematical Methods</li>
+                <li>Scientific Computing</li>
+                <li>Basic Computer Organisation</li>
+            </ul>
+        </div>
+    </section>
+
+    <script>
+        function updateDebugInfo() {
+            const courseworkSection = document.getElementById('coursework');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            const debugInfo = document.getElementById('debug-info');
+            
+            const display = courseworkSection.style.display;
+            const computed = getComputedStyle(courseworkSection).display;
+            
+            debugInfo.innerHTML = `
+                Coursework Section: ${courseworkSection ? 'Found' : 'Not Found'}<br>
+                Toggle Button: ${toggleBtn ? 'Found' : 'Not Found'}<br>
+                Style Display: "${display}"<br>
+                Computed Display: "${computed}"<br>
+                Button Text: "${toggleBtn ? toggleBtn.textContent : 'N/A'}"
+            `;
+        }
+
+        function toggleCoursework() {
+            console.log('Toggle function called');
+            const courseworkSection = document.getElementById('coursework');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            
+            if (!courseworkSection || !toggleBtn) {
+                console.error('Elements not found');
+                return;
+            }
+            
+            const isHidden = courseworkSection.style.display === 'none' || 
+                            courseworkSection.style.display === '' ||
+                            getComputedStyle(courseworkSection).display === 'none';
+            
+            if (isHidden) {
+                console.log('Showing coursework');
+                courseworkSection.style.display = 'block';
+                toggleBtn.textContent = 'Hide Coursework';
+            } else {
+                console.log('Hiding coursework');
+                courseworkSection.style.display = 'none';
+                toggleBtn.textContent = 'View Coursework';
+            }
+            
+            updateDebugInfo();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            updateDebugInfo();
+            
+            // Also add click event listener as backup
+            const toggleBtn = document.querySelector('.toggle-btn');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    console.log('Button clicked via event listener');
+                    e.preventDefault();
+                    toggleCoursework();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
