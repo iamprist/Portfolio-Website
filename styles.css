@@ -57,6 +57,12 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px; /* Accounts for fixed navbar height + some extra space */
+}
+
+/* Add scroll offset for all main sections */
+section {
+    scroll-margin-top: 90px;
 }
 
 body {
@@ -156,7 +162,9 @@ body {
     align-items: center;
     background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 50%, #f8f4ff 100%);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
+    scroll-margin-top: 0; /* Override the general section rule - home should scroll to very top */
 }
 
 .hero::before {
@@ -277,6 +285,99 @@ body {
     transform: translateY(-3px);
     border-color: transparent;
     box-shadow: 0 8px 32px rgba(26, 143, 45, 0.3);
+}
+
+/* CV Dropdown Styles */
+.cv-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+.dropdown-arrow {
+    font-size: 0.8rem;
+    transition: var(--transition-fast);
+}
+
+.cv-dropdown.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    min-width: 280px;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-medium);
+    z-index: 1000;
+    border: 1px solid rgba(26, 143, 45, 0.1);
+}
+
+.cv-dropdown.active .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: var(--transition-fast);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(135deg, rgba(26, 143, 45, 0.05), rgba(33, 150, 243, 0.05));
+    color: var(--primary-green);
+}
+
+.dropdown-item i {
+    font-size: 1.2rem;
+    color: var(--accent-blue);
+    min-width: 20px;
+}
+
+.dropdown-item:hover i {
+    color: var(--primary-green);
+}
+
+.cv-option {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cv-title {
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.95rem;
+}
+
+.cv-description {
+    font-size: 0.8rem;
+    color: var(--secondary-green);
+    opacity: 0.8;
 }
 
 .hero-social {
@@ -480,8 +581,13 @@ body {
 
 /* ===== ABOUT SECTION ===== */
 .about {
-    padding: var(--spacing-xxl) 0;
+    padding: 0 0 var(--spacing-xxl) 0;
     background: var(--bg-light);
+}
+
+.about .section-header {
+    margin-bottom: var(--spacing-lg);
+    padding-top: var(--spacing-md);
 }
 
 .about-content {

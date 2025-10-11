@@ -12,8 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initGallery();
     initImageLazyLoading();
     initCoursework();
+    initCVDropdown();
     
-    console.log('🚀 Pretty Mangwadi Portfolio Loaded Successfully!');
+    console.log(' Pretty Mangwadi Portfolio Loaded Successfully!');
 });
 
 // ===== NAVIGATION FUNCTIONALITY =====
@@ -963,4 +964,50 @@ function initCoursework() {
     } else {
         console.error('Toggle button not found during initialization');
     }
+}
+
+// ===== CV DROPDOWN FUNCTIONALITY =====
+function initCVDropdown() {
+    const dropdown = document.querySelector('.cv-dropdown');
+    const dropdownToggle = document.getElementById('cvDropdown');
+    const dropdownMenu = document.getElementById('cvMenu');
+    
+    if (!dropdown || !dropdownToggle || !dropdownMenu) {
+        console.log('CV dropdown elements not found');
+        return;
+    }
+    
+    // Toggle dropdown on click
+    dropdownToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+    
+    // Close dropdown on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && dropdown.classList.contains('active')) {
+            dropdown.classList.remove('active');
+        }
+    });
+    
+    // Add analytics tracking for CV downloads (optional)
+    const downloadLinks = dropdownMenu.querySelectorAll('.dropdown-item');
+    downloadLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const cvType = this.querySelector('.cv-title').textContent;
+            console.log(`📄 CV Downloaded: ${cvType}`);
+            // You can add Google Analytics tracking here if needed
+            // gtag('event', 'download', { 'cv_type': cvType });
+        });
+    });
+    
+    console.log('✅ CV dropdown initialized successfully');
 }
