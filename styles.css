@@ -162,8 +162,7 @@ body {
     align-items: center;
     background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 50%, #f8f4ff 100%);
     position: relative;
-    overflow-x: hidden;
-    overflow-y: visible;
+    overflow: hidden;
     scroll-margin-top: 0; /* Override the general section rule - home should scroll to very top */
 }
 
@@ -323,7 +322,7 @@ body {
     visibility: hidden;
     transform: translateY(-10px);
     transition: all var(--transition-medium);
-    z-index: 1000;
+    z-index: 9999;
     border: 1px solid rgba(26, 143, 45, 0.1);
 }
 
@@ -487,14 +486,7 @@ body {
     animation-delay: 1s;
 }
 
-.element-3 {
-    width: 80px;
-    height: 80px;
-    background: rgba(45, 90, 39, 0.2);
-    bottom: 20%;
-    left: 20%;
-    animation-delay: 2s;
-}
+
 
 .code-snippet {
     background: var(--bg-dark);
@@ -534,6 +526,18 @@ body {
     color: var(--secondary-green);
     opacity: 0;
     animation: fadeIn 1s ease-out 2s forwards;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.scroll-indicator:hover {
+    color: var(--primary-green);
+    transform: translateX(-50%) translateY(-5px);
+}
+
+.scroll-indicator:hover .scroll-arrow {
+    border-color: var(--primary-green);
 }
 
 .scroll-arrow {
