@@ -13,8 +13,14 @@ document.addEventListener('DOMContentLoaded', function() {
     initImageLazyLoading();
     initCoursework();
     initCVDropdown();
-    
-    console.log(' Pretty Mangwadi Portfolio Loaded Successfully!');
+    // interactive and performance features
+    initInteractiveElements();
+    initEasterEggs();
+    optimizePerformance();
+    initProfileImageEffects();
+    initDownloadCV();
+
+    console.log('Pretty Mangwadi Portfolio Loaded Successfully!');
 });
 
 // ===== NAVIGATION FUNCTIONALITY =====
@@ -24,19 +30,24 @@ function initNavigation() {
     const navLinks = document.querySelectorAll('.nav-link');
     const navbar = document.querySelector('.navbar');
 
-    // Mobile menu toggle
-    hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-    });
+    // Mobile menu toggle (guard elements exist)
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            const isActive = hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+            // update aria for accessibility
+            hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+        });
+    }
 
     // Close mobile menu when clicking on a link
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            if (hamburger) hamburger.classList.remove('active');
+            if (navMenu) navMenu.classList.remove('active');
             document.body.classList.remove('menu-open');
+            if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
         });
     });
 
@@ -90,7 +101,7 @@ function initSmoothScrolling() {
                 if (targetId === '#home') {
                     window.scrollTo({
                         top: 0,
-                        behavior: 'instant'
+                        behavior: 'auto'
                     });
                 } else {
                     // For other sections, use smooth scrolling with navbar offset
@@ -479,22 +490,15 @@ function showNotification(message, type = 'info') {
 }
 
 // ===== DOWNLOAD CV FUNCTIONALITY =====
-document.addEventListener('DOMContentLoaded', function() {
+function initDownloadCV() {
     const downloadCVButton = document.getElementById('downloadCV');
-    
-    if (downloadCVButton) {
-        downloadCVButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Show notification (since we don't have an actual CV file)
-           // showNotification('CV download will be available soon!', 'info');
-            
-            // In a real implementation, you would:
-             window.open('cv.pdf', '_blank');
-            // or trigger a download of the actual CV file
-        });
-    }
-});
+    if (!downloadCVButton) return;
+    downloadCVButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        // In a real implementation, trigger a download or open file
+        window.open('cv.pdf', '_blank');
+    });
+}
 
 // ===== INTERACTIVE ELEMENTS =====
 function initInteractiveElements() {
@@ -769,16 +773,7 @@ const additionalStyles = `
 
 // Inject additional styles
 document.head.insertAdjacentHTML('beforeend', additionalStyles);
-
-// Initialize all interactive features
-document.addEventListener('DOMContentLoaded', function() {
-    initInteractiveElements();
-    initEasterEggs();
-    optimizePerformance();
-    
-    // Optional: uncomment to add loading screen
-    // initLoadingScreen();
-});
+// Additional styles injected.
 
 // ===== GALLERY FUNCTIONALITY =====
 function initGallery() {
@@ -925,10 +920,7 @@ function initProfileImageEffects() {
     }
 }
 
-// Initialize profile image effects when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initProfileImageEffects();
-});
+// profile image effects are initialized in the main DOMContentLoaded handler
 
 // ===== COURSEWORK SCROLL FUNCTIONALITY =====
 window.toggleCoursework = function() {
@@ -973,6 +965,68 @@ function initCoursework() {
     } else {
         console.error('Toggle button not found during initialization');
     }
+
+    // Make each coursework-year collapsible for better mobile UX
+    const years = document.querySelectorAll('.coursework-year');
+    years.forEach((year, index) => {
+        const header = year.querySelector('h3');
+        const modulesGrid = year.querySelector('.modules-grid');
+
+        if (!header || !modulesGrid) return;
+
+        // ensure modulesGrid has an id for aria-controls
+        if (!modulesGrid.id) modulesGrid.id = `modules-grid-${index}`;
+
+        // create toggle button
+        const btn = document.createElement('button');
+        btn.className = 'coursework-toggle';
+        // start collapsed by default
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-controls', modulesGrid.id);
+        btn.innerHTML = '<span class="toggle-label">Show</span> <span class="toggle-caret">▸</span>';
+        btn.type = 'button';
+
+        // collapse by default
+        modulesGrid.classList.add('collapsed');
+        modulesGrid.style.maxHeight = '0px';
+
+        // append to header (keep semantics)
+        header.appendChild(btn);
+
+        // click handler
+        btn.addEventListener('click', function(e) {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            if (expanded) {
+                // collapse
+                this.setAttribute('aria-expanded', 'false');
+                this.querySelector('.toggle-label').textContent = 'Show';
+                this.querySelector('.toggle-caret').textContent = '▸';
+                // animate height to 0
+                modulesGrid.style.maxHeight = modulesGrid.scrollHeight + 'px';
+                // force repaint
+                modulesGrid.offsetHeight;
+                modulesGrid.style.transition = 'max-height 0.35s ease-in-out, opacity 0.25s ease-in-out';
+                modulesGrid.style.maxHeight = '0px';
+                modulesGrid.style.opacity = '0';
+                modulesGrid.classList.add('collapsed');
+            } else {
+                // expand
+                this.setAttribute('aria-expanded', 'true');
+                this.querySelector('.toggle-label').textContent = 'Hide';
+                this.querySelector('.toggle-caret').textContent = '▾';
+                modulesGrid.classList.remove('collapsed');
+                modulesGrid.style.opacity = '1';
+                // set explicit maxHeight to allow transition
+                modulesGrid.style.maxHeight = modulesGrid.scrollHeight + 'px';
+                // after transition, clear maxHeight to allow responsive height
+                const clearMax = () => {
+                    modulesGrid.style.maxHeight = 'none';
+                    modulesGrid.removeEventListener('transitionend', clearMax);
+                };
+                modulesGrid.addEventListener('transitionend', clearMax);
+            }
+        });
+    });
 }
 
 // ===== CV DROPDOWN FUNCTIONALITY =====
@@ -990,7 +1044,9 @@ function initCVDropdown() {
     dropdownToggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        dropdown.classList.toggle('active');
+        const isActive = dropdown.classList.toggle('active');
+        // update aria attribute for accessibility
+        dropdownToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
     });
     
     // Close dropdown when clicking outside

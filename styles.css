@@ -1586,6 +1586,37 @@ body {
     gap: var(--spacing-md);
 }
 
+/* Collapsible coursework styles */
+.coursework-toggle {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--primary-green);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.95rem;
+}
+
+.coursework-toggle:focus {
+    outline: 2px solid rgba(26, 143, 45, 0.2);
+    border-radius: 6px;
+}
+
+.modules-grid.collapsed {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease-in-out, opacity 0.25s ease-in-out;
+    opacity: 0;
+}
+
+.modules-grid {
+    transition: max-height 0.35s ease-in-out, opacity 0.25s ease-in-out;
+}
+
 .module-card {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     border-radius: var(--radius-md);
