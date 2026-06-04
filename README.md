@@ -1,8 +1,8 @@
 # Pretty Mangwadi - Portfolio Website
 
-A modern, responsive portfolio website showcasing the professional journey of Pretty Mangwadi, a final-year Computer Science student at the University of the Witwatersrand.
+A modern, responsive portfolio website showcasing the professional journey of Pretty Mangwadi, a Graduate Digitl Transformation Consultant and Bsc Computer Science Graduate.
 
-## 🌐 Live Website
+## Live Website
 **[View Portfolio Live](https://iamprist.github.io/Portfolio-Website/)**
 
 ## About
@@ -149,6 +149,7 @@ This project is for personal portfolio use. All rights reserved by Pretty Mangwa
 
 ## Acknowledgments
 
+- DY/DX Digital
 - University of the Witwatersrand for educational foundation
 - Wits Developer Society for community support
 - Font Awesome for iconography
