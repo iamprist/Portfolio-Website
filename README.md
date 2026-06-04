@@ -1,6 +1,6 @@
 # Pretty Mangwadi - Portfolio Website
 
-A modern, responsive portfolio website showcasing the professional journey of Pretty Mangwadi, a Graduate Digitl Transformation Consultant and Bsc Computer Science Graduate.
+A modern, responsive portfolio website showcasing the professional journey of Pretty Mangwadi, a Graduate Digital Transformation Consultant and Bsc Computer Science Graduate.
 
 ## Live Website
 **[View Portfolio Live](https://iamprist.github.io/Portfolio-Website/)**
